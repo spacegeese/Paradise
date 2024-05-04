@@ -830,6 +830,11 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	item = /obj/item/bio_chip_implanter/stealth
 	cost = 45
 
+/datum/uplink_item/bio_chips/musicimplant
+	name = "Musical Bio-chip"
+	desc = "This implant will allow you to play sick-ass music."
+	reference = "MI"
+	item = /obj/item/bio_chip_implanter/music
 // CYBERNETICS
 
 /datum/uplink_item/cyber_implants

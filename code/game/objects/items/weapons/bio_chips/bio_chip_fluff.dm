@@ -155,4 +155,4 @@
 /datum/implant_fluff/music
 	name = "University of Space Clowns \"One Man Band\" Musical Synthesizer Bio-chip"
 	notes = "Plays music."
-	function = "Plays music from an internal sound synthesizer. Used exclusively to play the most annoying thing you can think of with the only thing able to stop you being death."
+	function = "Plays music from an internal sound synthesizer. Used exclusively to play the most annoying thing you can think of with the only thing able to stop you being death. Even that won't stop you!"
