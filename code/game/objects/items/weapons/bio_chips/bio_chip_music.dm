@@ -8,13 +8,6 @@
 	activated = BIOCHIP_ACTIVATED_ACTIVE
 	implant_data = /datum/implant_fluff/music
 
-/obj/item/bio_chip/music/activate(user)
-		ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "Instrument", "Internal Music Synthesizer")
-		ui.set_autoupdate(FALSE)
-		ui.open()
-
 /obj/item/bio_chip_implanter/music
 	name = "bio-chip implanter (music)"
 	implant_type = /obj/item/bio_chip/music

@@ -835,6 +835,7 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "This implant will allow you to play sick-ass music."
 	reference = "MI"
 	item = /obj/item/bio_chip_implanter/music
+	cost = 1
 // CYBERNETICS
 
 /datum/uplink_item/cyber_implants
