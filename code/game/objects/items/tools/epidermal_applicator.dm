@@ -9,9 +9,9 @@
 	/// Current amount of metal stored in the applicator
 	var/metal_stored = 0
 	/// Maximum metal that can be stored
-	var/max_metal_stored = 5
+	var/max_metal_stored = 30
 	/// Metal required per application
-	var/metal_per_use = 5
+	var/metal_per_use = 3
 
 	var/applying = FALSE
 
@@ -147,8 +147,8 @@
 	// Play start sound
 	playsound(get_turf(src), 'sound/effects/spray.ogg', 50, TRUE)
 
-	// 10 second do-after
-	if(do_after(user, 10 SECONDS, target = target))
+	// 3 second do-after
+	if(do_after(user, 3 SECONDS, target = target))
 		// Play end sound
 		playsound(get_turf(src), 'sound/effects/spray3.ogg', 50, TRUE)
 

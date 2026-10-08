@@ -187,6 +187,9 @@
 		if(4)
 			msg += "[p_they(TRUE)] [p_are()] mostly desiccated now, with only [isslimeperson(src) ? "congealed slime" : "bones"] remaining of what used to be a person.\n"
 
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire) && calculate_ipc_masquerade_status(src)) //vampire's warning for masqueraded IPCs
+		msg += "[SPAN_USERDANGER("Despite [src.p_their()]'s lifelike appearance, you can smell no blood in [src.p_their()] body. Best not to target this one...")]\n"
+
 	// only humans get employment records
 	if(hasHUD(user, EXAMINE_HUD_SKILLS))
 		var/perpname = get_visible_name(TRUE)

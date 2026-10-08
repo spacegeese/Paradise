@@ -36,12 +36,13 @@
 	trait_to_apply = TRAIT_GLUTTON
 	species_flags = QUIRK_MACHINE_INCOMPATIBLE
 
-/datum/quirk/lifelike
+/datum/quirk/lifelike //ipc only lifelike
 	name = "Lifelike"
-	desc = "Your prosthetic limbs have been fitted with a synthetic epidermis, making them appear natural. \
-			For IPCs, this covers all body parts, making them look human (except monitor-shaped heads). \
-			For all others, it covers prosthetic limbs."
+	desc = "Your silicon body has been fitted with a synthetic epidermis, making them appear natural. \
+			This covers all body parts, making them look human (except monitor-shaped heads).\
+			This version of the quirk is only available to IPCs."
 	cost = 4
+	species_flags = QUIRK_ORGANIC_INCOMPATIBLE
 	item_to_give = /obj/item/epidermal_applicator/aftermarket
 
 /datum/quirk/lifelike/apply_quirk_effects(mob/living/carbon/human/target, character)
@@ -62,7 +63,46 @@
 			if(R && R.is_monitor)
 				continue
 
-		if(ismachineperson(target) || limb.is_robotic())
+		if(ismachineperson(target))
+			limb.has_synthetic_skin = TRUE
+			// Apply owner's skin color to synthetic skin
+			limb.synthetic_skin_colour = target.skin_colour
+			if(limb.limb_name == "head")
+				limb.synthetic_skin_identity = target.dna.real_name
+			// Clear cached limb icon because otherwise it's sticky
+			limb.force_icon = null
+			// Force mob icon regeneration
+			limb.mob_icon = null
+			limb.compile_icon()
+
+	// Now rebuild appearance
+	target.update_body(rebuild_base = TRUE)
+
+	// Unregister the signal since we're done with it
+	UnregisterSignal(target, COMSIG_HUMAN_ROBOTIC_LIMBS_APPLIED)
+
+/datum/quirk/silicon_secret //prosthetic limb lifelike
+	name = "Silicon Secret"
+	desc = "Your prosthetic limbs have been fitted with a synthetic epidermis, making them appear natural. \
+			This covers all synthetic limbs, making them look natural and not robotic.\
+			This version of the quirk is only available to organics."
+	cost = 2
+	species_flags = QUIRK_MACHINE_INCOMPATIBLE
+	item_to_give = /obj/item/epidermal_applicator/aftermarket
+
+/datum/quirk/silicon_secret/apply_quirk_effects(mob/living/carbon/human/target, character)
+	. = ..(target, character)
+	// Apply synthetic skin after robotic limbs are applied or the quirk doesn't work very well
+	RegisterSignal(target, COMSIG_HUMAN_ROBOTIC_LIMBS_APPLIED, PROC_REF(apply_synthetic_skin_on_signal))
+
+/datum/quirk/silicon_secret/proc/apply_synthetic_skin_on_signal(mob/living/carbon/human/target)
+	SIGNAL_HANDLER // COMSIG_HUMAN_ROBOTIC_LIMBS_APPLIED
+
+	for(var/obj/item/organ/external/limb as anything in target.bodyparts)
+		if(!limb)
+			continue
+
+		if(limb.is_robotic())
 			limb.has_synthetic_skin = TRUE
 			// Apply owner's skin color to synthetic skin
 			limb.synthetic_skin_colour = target.skin_colour
